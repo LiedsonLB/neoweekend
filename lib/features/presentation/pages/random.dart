@@ -40,8 +40,8 @@ class RandomPage extends StatelessWidget {
               const SizedBox(height: 30),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(AppColors.pink),
-                  foregroundColor: MaterialStateProperty.all(AppColors.white),
+                  backgroundColor: WidgetStateProperty.all(AppColors.pink),
+                  foregroundColor: WidgetStateProperty.all(AppColors.white),
                 ),
                 onPressed: () {},
                 child: const Padding(

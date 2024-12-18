@@ -7,11 +7,14 @@ environment:
   sdk: ^3.5.4
 
 dependencies:
+  dartz: ^0.10.1
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.2.1
   flutter_launcher_icons: ^0.14.2
   font_awesome_flutter: ^10.8.0
+  http: ^1.2.2
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
@@ -25,6 +28,7 @@ flutter:
     - assets/
     - assets/image/
     - assets/icons/
+    - assets/icons/logo.png
 
 flutter_icons:
   android: true

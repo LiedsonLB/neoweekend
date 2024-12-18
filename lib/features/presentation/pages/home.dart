@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neoweekend/core/constants/colors.dart';
-import 'package:neoweekend/features/home/widgets/header.dart';
-import 'package:neoweekend/features/random/random.dart';
+import 'package:neoweekend/features/presentation/pages/game.dart';
+import 'package:neoweekend/features/presentation/pages/random.dart';
+import 'package:neoweekend/features/presentation/widgets/header.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -16,7 +19,7 @@ class _HomePageState extends State<HomePage> {
     Center(child: Text('Session Movies', style: TextStyle(fontSize: 24))),
     Center(child: Text('Session Books', style: TextStyle(fontSize: 24))),
     Center(child: RandomPage()),
-    Center(child: Text('Session Games', style: TextStyle(fontSize: 24))),
+    Center(child: GameSession()),
     Center(child: Text('Session Musics', style: TextStyle(fontSize: 24))),
   ];
 
