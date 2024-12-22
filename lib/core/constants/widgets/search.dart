@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Search extends StatelessWidget {
   final ValueChanged onChanged;
 
-  Search({super.key, required this.onChanged});
+  const Search({super.key, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {

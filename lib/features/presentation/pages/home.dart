@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neoweekend/core/constants/colors.dart';
-import 'package:neoweekend/features/presentation/pages/game.dart';
+import 'package:neoweekend/features/presentation/pages/game/game.dart';
+import 'package:neoweekend/features/presentation/pages/movie/movie.dart';
 import 'package:neoweekend/features/presentation/pages/random.dart';
-import 'package:neoweekend/features/presentation/widgets/header.dart';
+import 'package:neoweekend/core/constants/widgets/header.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 2;
 
   final List<Widget> _screens = const [
-    Center(child: Text('Session Movies', style: TextStyle(fontSize: 24))),
+    Center(child: MovieSession()),
     Center(child: Text('Session Books', style: TextStyle(fontSize: 24))),
     Center(child: RandomPage()),
     Center(child: GameSession()),

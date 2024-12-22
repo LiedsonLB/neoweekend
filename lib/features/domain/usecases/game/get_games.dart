@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:neoweekend/core/error/game_failure.dart';
-import 'package:neoweekend/features/domain/repositories/game_repository.dart';
-import 'package:neoweekend/features/data/models/game.dart';
+import 'package:neoweekend/core/error/game/game_failure.dart';
+import 'package:neoweekend/features/domain/repositories/game/game_repository.dart';
+import 'package:neoweekend/features/data/models/game/game.dart';
 
 class Getgames {
   final GameRepository gameRepository;

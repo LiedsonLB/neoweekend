@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:neoweekend/core/constants/colors.dart';
 import 'package:neoweekend/core/constants/widgets/search.dart';
-import 'package:neoweekend/features/presentation/controllers/game_provider.dart';
-import 'package:neoweekend/features/presentation/controllers/genre_provider.dart';
-import 'package:neoweekend/features/presentation/widgets/game_card.dart';
-import 'package:neoweekend/features/presentation/widgets/category_card.dart'; // Importando o CategoryCard
+import 'package:neoweekend/features/domain/entities/dto/game/game_card_dto.dart';
+import 'package:neoweekend/features/presentation/controllers/game/game_controller.dart';
+import 'package:neoweekend/features/presentation/controllers/game/genre_provider.dart';
+import 'package:neoweekend/features/presentation/widgets/game/game_card.dart';
+import 'package:neoweekend/features/presentation/widgets/game/category_card.dart';
 import 'package:provider/provider.dart';
 
 class GameSession extends StatefulWidget {
@@ -23,7 +25,7 @@ class _GameSessionState extends State<GameSession> {
     super.initState();
     _scrollController = ScrollController();
     _scrollController = ScrollController()..addListener(_onScroll);
-    Future.microtask(() => context.read<GameProvider>().getGames());
+    Future.microtask(() => context.read<GameController>().getGames());
     Future.microtask(() => context.read<GenreProvider>().getGenres());
   }
 
@@ -37,13 +39,13 @@ class _GameSessionState extends State<GameSession> {
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 200) {
-      context.read<GameProvider>().getGames();
+      context.read<GameController>().getGames();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final gameProvider = context.watch<GameProvider>();
+    final gameController = context.watch<GameController>();
     final genreProvider = context.watch<GenreProvider>();
 
     return Column(
@@ -57,7 +59,7 @@ class _GameSessionState extends State<GameSession> {
                 child: Search(
                   onChanged: (query) {
                     if (query.isNotEmpty) {
-                      gameProvider.getGames(query: query, reset: true);
+                      gameController.getGames(query: query, reset: true);
                     }
                   },
                 ),
@@ -66,9 +68,9 @@ class _GameSessionState extends State<GameSession> {
               IconButton(
                 padding: const EdgeInsets.all(10),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(AppColors.white),
-                  foregroundColor: MaterialStateProperty.all(AppColors.black),
-                  shape: MaterialStateProperty.all(
+                  backgroundColor: WidgetStateProperty.all(AppColors.white),
+                  foregroundColor: WidgetStateProperty.all(AppColors.black),
+                  shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
@@ -96,7 +98,7 @@ class _GameSessionState extends State<GameSession> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: SizedBox(
-              height: 100, // Altura do ListView
+              height: 100,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: genreProvider.genres.length,
@@ -119,13 +121,18 @@ class _GameSessionState extends State<GameSession> {
             ),
           ),
         ),
-        if (gameProvider.isLoading)
+        if (gameController.isLoading)
           const Expanded(
             child: Center(child: CircularProgressIndicator()),
           )
-        else if (gameProvider.games.isEmpty)
+        else if (gameController.games.isEmpty)
           const Expanded(
-            child: Center(child: Text('Nenhum jogo encontrado.')),
+            child: Center(
+              child: Text(
+                'Nenhum jogo encontrado.',
+                selectionColor: AppColors.white,
+              ),
+            ),
           )
         else
           Expanded(
@@ -134,7 +141,7 @@ class _GameSessionState extends State<GameSession> {
               child: GridView.builder(
                 key: const PageStorageKey('game_list'),
                 controller: _scrollController,
-                itemCount: gameProvider.games.length,
+                itemCount: gameController.games.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 10,
@@ -142,8 +149,9 @@ class _GameSessionState extends State<GameSession> {
                   childAspectRatio: 3 / 4,
                 ),
                 itemBuilder: (context, index) {
-                  final game = gameProvider.games[index];
-                  return GameCard(game: game);
+                  final game = gameController.games[index];
+                  final gameCardDTO = GameCardDTO.fromGame(game);
+                  return GameCard(gameCardDto: gameCardDTO);
                 },
               ),
             ),

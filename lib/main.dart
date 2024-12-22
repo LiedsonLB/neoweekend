@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:neoweekend/core/services/game_service.dart';
-import 'package:neoweekend/features/data/repositories/genre_repository_impl.dart';
-import 'package:neoweekend/features/domain/usecases/get_genres.dart';
-import 'package:neoweekend/features/presentation/controllers/game_provider.dart';
-import 'package:neoweekend/features/presentation/controllers/genre_provider.dart';
+import 'package:neoweekend/core/services/game/game_service.dart';
+import 'package:neoweekend/core/services/movie/movie_service.dart';
+import 'package:neoweekend/features/data/repositories/game/genre_repository_impl.dart';
+import 'package:neoweekend/features/data/repositories/movie/movie_repository_impl.dart';
+import 'package:neoweekend/features/domain/usecases/game/get_genres.dart';
+import 'package:neoweekend/features/domain/usecases/movie/get_popular_movies.dart';
+import 'package:neoweekend/features/presentation/controllers/game/game_controller.dart';
+import 'package:neoweekend/features/presentation/controllers/game/genre_provider.dart';
+import 'package:neoweekend/features/presentation/controllers/movie/movie_provider.dart';
 import 'package:neoweekend/features/presentation/pages/splash.dart';
-import 'package:neoweekend/features/domain/usecases/get_games.dart';
-import 'package:neoweekend/features/data/repositories/game_repository_impl.dart';
+import 'package:neoweekend/features/domain/usecases/game/get_games.dart';
+import 'package:neoweekend/features/data/repositories/game/game_repository_impl.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -21,13 +25,19 @@ class NeoWeekendApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider(create: (_) => MovieService()),
+        Provider(create: (context) => MovieRepositoryImpl(context.read<MovieService>())),
+        Provider(create: (context) => GetPopularMovies(context.read<MovieRepositoryImpl>())),
         Provider(create: (_) => GameService()),
         Provider(create: (context) => GameRepositoryImpl(context.read<GameService>())),
         Provider(create: (context) => GenreRepositoryImpl(context.read<GameService>())),
         Provider(create: (context) => Getgames(context.read<GameRepositoryImpl>())),
         Provider(create: (context) => GetGenres(context.read<GenreRepositoryImpl>())),
         ChangeNotifierProvider(
-          create: (context) => GameProvider(getgames: context.read<Getgames>()),
+          create: (context) => MovieProvider(getPopularMoviesUseCase: context.read<GetPopularMovies>()),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GameController(getGamesUseCase: context.read<Getgames>()),
         ),
         ChangeNotifierProvider(
           create: (context) => GenreProvider(getgenres: context.read<GetGenres>()),

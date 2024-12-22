@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:neoweekend/features/data/models/genre.dart'; // Supondo que você tenha a classe Genre
+import 'package:neoweekend/features/data/models/game/genre.dart';
 
 class CategoryCard extends StatelessWidget {
   final Genre genre;

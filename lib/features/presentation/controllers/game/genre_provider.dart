@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:neoweekend/features/data/models/genre.dart';
-import 'package:neoweekend/features/domain/usecases/get_genres.dart';
+import 'package:neoweekend/features/data/models/game/genre.dart';
+import 'package:neoweekend/features/domain/usecases/game/get_genres.dart';
 
 class GenreProvider with ChangeNotifier {
   final List<Genre> _genres = [];

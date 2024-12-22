@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:neoweekend/features/data/models/genre.dart';
+import 'package:neoweekend/features/data/models/game/genre.dart';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
-import '../../features/data/models/game.dart';
+import '../../../features/data/models/game/game.dart';
 
 class GameService {
   final baseUrlGames = 'https://api.rawg.io/api/games';
@@ -55,7 +55,7 @@ class GameService {
   }
 
   Future<Game> fetchGame(String id) async {
-    final url = Uri.parse('$baseUrlGames/games/$id?key=$apiKey');
+    final url = Uri.parse('$baseUrlGames/$id?key=$apiKey');
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
