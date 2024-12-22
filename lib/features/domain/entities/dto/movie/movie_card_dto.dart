@@ -17,7 +17,7 @@ class MovieCardDTO {
   factory MovieCardDTO.fromMovie(Movie movie) {
     return MovieCardDTO(
       id: movie.id,
-      backgroundImage: movie.posterPath,
+      backgroundImage: "https://www.themoviedb.org/t/p/w500/${movie.posterPath}",
       name: movie.title,
       rating: movie.voteAverage,
     );

@@ -18,10 +18,6 @@ class Genre {
       id: json['id'],
       name: json['name'],
       imageBackground: json['image_background'],
-      games: (json['games'] as List<dynamic>?)
-              ?.map((game) => Game.fromJson(game as Map<String, dynamic>))
-              .toList() ??
-          [],
     );
   }
 }

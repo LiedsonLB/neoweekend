@@ -12,6 +12,7 @@ import 'package:neoweekend/features/presentation/controllers/movie/movie_provide
 import 'package:neoweekend/features/presentation/pages/splash.dart';
 import 'package:neoweekend/features/domain/usecases/game/get_games.dart';
 import 'package:neoweekend/features/data/repositories/game/game_repository_impl.dart';
+
 import 'package:provider/provider.dart';
 
 void main() async {

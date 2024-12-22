@@ -34,7 +34,8 @@ class _MovieCardState extends State<MovieCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print('Imagem clicada');
+        print('ID: ${widget.movieCardDTO.id}');
+        print('Título: ${widget.movieCardDTO.name}');
       },
       child: Container(
         decoration: BoxDecoration(

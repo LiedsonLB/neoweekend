@@ -15,7 +15,7 @@ class GenreRepositoryImpl extends GenreRepository{
       final genres = await gameService.fetchCategories();
       return Right(genres);
     } catch (e) {
-      return Left(GenreFailure('Erro ao obter jogos: ${e.toString()}'));
+      return Left(GenreFailure('Erro ao obter gêneros: ${e.toString()}'));
     }
   }
 }

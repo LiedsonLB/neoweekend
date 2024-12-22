@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.black,
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {
@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
         },
         type: BottomNavigationBarType.fixed,
         selectedItemColor: AppColors.pink,
-        unselectedItemColor: AppColors.black,
+        unselectedItemColor: AppColors.white,
         showSelectedLabels: true,
         showUnselectedLabels: true,
         items: const [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:neoweekend/core/constants/colors.dart';
 import 'package:neoweekend/core/services/game/game_service.dart';
 import 'package:neoweekend/features/data/repositories/game/game_repository_impl.dart';
@@ -83,29 +84,38 @@ class _GameCardState extends State<GameCard> {
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 5),
-                Row(
-                  children: [
-                    for (int i = 0; i < widget.gameCardDto.rating.toInt(); i++)
-                      const Icon(
-                        FontAwesomeIcons.solidStar,
-                        size: 14,
-                        color: Colors.amber,
+                ColoredBox(
+                  color: AppColors.black.withOpacity(0.6),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    child: Container(
+                      width: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
                       ),
-                    if (widget.gameCardDto.rating % 1 != 0)
-                      const Icon(
-                        FontAwesomeIcons.starHalfAlt,
-                        size: 14,
-                        color: Colors.amber,
-                      ),
-                    const SizedBox(width: 5),
-                    Text(
-                      widget.gameCardDto.rating.toStringAsFixed(1),
-                      style: const TextStyle(
-                        color: AppColors.white,
-                        fontSize: 12,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            FontAwesomeIcons.solidStar,
+                            size: 14,
+                            color: Colors.amber,
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            widget.gameCardDto.rating.toStringAsFixed(1),
+                            style: const TextStyle(
+                              color: AppColors.white,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
                 const SizedBox(height: 5),
                 Row(
@@ -114,7 +124,8 @@ class _GameCardState extends State<GameCard> {
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          children: _getPlatformIcons(widget.gameCardDto.platforms),
+                          children:
+                              _getPlatformIcons(widget.gameCardDto.platforms),
                         ),
                       ),
                     ),

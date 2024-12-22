@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:neoweekend/features/data/models/movie/movie.dart';
 import 'package:neoweekend/features/domain/usecases/movie/get_popular_movies.dart';
 
-class MovieProvider with ChangeNotifier{
+class MovieProvider with ChangeNotifier {
   List<Movie> _movies = [];
   bool _isLoading = false;
 
@@ -22,12 +22,15 @@ class MovieProvider with ChangeNotifier{
       _currentPage = 1;
       _movies = [];
     }
-    
+
     _isLoading = true;
     notifyListeners();
 
     try {
-      final result = await getPopularMoviesUseCase.call(query: query, page: _currentPage);
+      final result = await getPopularMoviesUseCase.call(
+        query: query,
+        page: _currentPage,
+      );
       result.fold(
         (failure) {
           print(failure.message);

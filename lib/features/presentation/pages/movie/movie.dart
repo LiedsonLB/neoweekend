@@ -40,6 +40,16 @@ class _MovieSessionState extends State<MovieSession> {
     }
   }
 
+  void _scrollToTop() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        0.0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final movieProvider = context.watch<MovieProvider>();
@@ -56,6 +66,7 @@ class _MovieSessionState extends State<MovieSession> {
                   onChanged: (query) {
                     if (query.isNotEmpty) {
                       movieProvider.getPopularMovies(query: query, reset: true);
+                      _scrollToTop();
                     }
                   },
                 ),
@@ -105,12 +116,12 @@ class _MovieSessionState extends State<MovieSession> {
         //       ),
         //     ),
         //   ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
           child: Text(
-            'Todos os jogos',
+            'Todos os filmes (${movieProvider.movies.length})',
             textAlign: TextAlign.start,
-            style: TextStyle(
+            style: const TextStyle(
               color: AppColors.pink,
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -135,7 +146,7 @@ class _MovieSessionState extends State<MovieSession> {
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: GridView.builder(
-                key: const PageStorageKey('game_list'),
+                key: const PageStorageKey('movie_list'),
                 controller: _scrollController,
                 itemCount: movieProvider.movies.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -145,8 +156,8 @@ class _MovieSessionState extends State<MovieSession> {
                   childAspectRatio: 3 / 4,
                 ),
                 itemBuilder: (context, index) {
-                  final game = movieProvider.movies[index];
-                  final movieCardDto = MovieCardDTO.fromMovie(game);
+                  final movie = movieProvider.movies[index];
+                  final movieCardDto = MovieCardDTO.fromMovie(movie);
                   return MovieCard(movieCardDTO: movieCardDto);
                 },
               ),

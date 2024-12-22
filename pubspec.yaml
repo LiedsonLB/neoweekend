@@ -34,3 +34,6 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/icons/logo.png"
+  android_icon: true
+  ios_icon: true
+  web_icon: true
