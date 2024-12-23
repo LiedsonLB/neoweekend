@@ -1,9 +1,6 @@
 ## NeoWeekend: Aplicativo de Sugestões para o Fim de Semana
 
-<div style="display: flex; align-items: center; justify-content: center;">
-  <img src="./assets/icons/logo.png" title="NeoWeekend" style="margin-right: 20px;"/>
-  <h1>NeoWeekend</h1>
-</div>
+<img src="./assets/icons/logo.png" title="NeoWeekend" style="margin-right: 20px;"/>
 
 <br/>
 
@@ -15,6 +12,7 @@ NeoWeekend é um aplicativo desenvolvido para ajudar você a aproveitar seu fim 
   <img src="./screenshots/random_page.png" alt="Movies" width="200" style="margin-right: 10px"/>
   <img src="./screenshots/game_page.png" alt="Series" width="200" style="margin-right: 10px"/>
   <img src="./screenshots/movie_page.png" alt="Games" width="200" style="margin-right: 10px"/>
+  <img src="./screenshots/info_game_page.png" alt="Games" width="200" style="margin-right: 10px"/>
 </div>
 
 ## Funcionalidades
