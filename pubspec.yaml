@@ -26,7 +26,6 @@ flutter:
 
   assets:
     - assets/
-    - assets/image/
     - assets/icons/
     - assets/icons/logo.png
 
