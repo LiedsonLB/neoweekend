@@ -1,4 +1,4 @@
-class Movie {
+class MovieModel {
   final int id;
   final String title;
   final String releaseDate;
@@ -9,7 +9,7 @@ class Movie {
   final String year;
   final List<int> genres;
 
-  Movie({
+  MovieModel({
     required this.id,
     required this.title,
     required this.releaseDate,
@@ -21,8 +21,8 @@ class Movie {
     required this.genres,
   });
 
-  factory Movie.fromJson(Map<String, dynamic> json) {
-    return Movie(
+  factory MovieModel.fromJson(Map<String, dynamic> json) {
+    return MovieModel(
       id: json['id'],
       title: json['title'],
       releaseDate: json['release_date'],

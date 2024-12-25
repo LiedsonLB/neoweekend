@@ -1,4 +1,4 @@
-import 'package:neoweekend/features/data/models/movie/movie.dart';
+import 'package:neoweekend/features/data/models/movie/movie_model.dart';
 
 class MovieCardDTO {
   final int id;
@@ -14,7 +14,7 @@ class MovieCardDTO {
     required this.rating,
   });
 
-  factory MovieCardDTO.fromMovie(Movie movie) {
+  factory MovieCardDTO.fromMovie(MovieModel movie) {
     return MovieCardDTO(
       id: movie.id,
       backgroundImage: "https://www.themoviedb.org/t/p/w500/${movie.posterPath}",

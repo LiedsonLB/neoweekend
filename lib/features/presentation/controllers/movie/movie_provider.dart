@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:neoweekend/features/data/models/movie/movie.dart';
+import 'package:neoweekend/features/data/models/movie/movie_model.dart';
 import 'package:neoweekend/features/domain/usecases/movie/get_popular_movies.dart';
 
 class MovieProvider with ChangeNotifier {
-  List<Movie> _movies = [];
+  List<MovieModel> _movies = [];
   bool _isLoading = false;
 
-  List<Movie> get movies => _movies;
+  List<MovieModel> get movies => _movies;
   bool get isLoading => _isLoading;
 
   final GetPopularMovies getPopularMoviesUseCase;
