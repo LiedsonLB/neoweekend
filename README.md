@@ -11,8 +11,9 @@ NeoWeekend é um aplicativo desenvolvido para ajudar você a aproveitar seu fim 
 <div style="display: flex; justify-content: center; flex-wrap: wrap; width: 100%">
   <img src="./screenshots/random_page.png" alt="Movies" width="200" style="margin-right: 10px"/>
   <img src="./screenshots/game_page.png" alt="Series" width="200" style="margin-right: 10px"/>
-  <img src="./screenshots/movie_page.png" alt="Games" width="200" style="margin-right: 10px"/>
   <img src="./screenshots/info_game_page.png" alt="Games" width="200" style="margin-right: 10px"/>
+   <img src="./screenshots/movie_page.png" alt="Games" width="200" style="margin-right: 10px"/>
+   <img src="./screenshots/random_combo.png" alt="Games" width="200" style="margin-right: 10px"/>
 </div>
 
 ## Funcionalidades
