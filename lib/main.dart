@@ -7,11 +7,14 @@ import 'package:neoweekend/features/data/repositories/game/genre_repository_impl
 import 'package:neoweekend/features/data/repositories/movie/movie_repository_impl.dart';
 import 'package:neoweekend/features/data/repositories/movie/series_repository_impl.dart';
 import 'package:neoweekend/features/domain/usecases/game/get_genres.dart';
+import 'package:neoweekend/features/domain/usecases/movie/get_genre.dart';
+import 'package:neoweekend/features/domain/usecases/movie/get_genre_movie.dart';
 import 'package:neoweekend/features/domain/usecases/movie/get_popular_movies.dart';
 import 'package:neoweekend/features/domain/usecases/movie/get_series.dart';
 import 'package:neoweekend/features/presentation/controllers/game/game_controller.dart';
 import 'package:neoweekend/features/presentation/controllers/game/genre_provider.dart';
-import 'package:neoweekend/features/presentation/controllers/movie/movie_provider.dart';
+import 'package:neoweekend/features/presentation/controllers/movie/genres_movies_provider.dart';
+import 'package:neoweekend/features/presentation/controllers/movie/movies_provider.dart';
 import 'package:neoweekend/features/presentation/controllers/movie/series_provider.dart';
 import 'package:neoweekend/features/presentation/pages/splash.dart';
 import 'package:neoweekend/features/domain/usecases/game/get_games.dart';
@@ -33,6 +36,8 @@ class NeoWeekendApp extends StatelessWidget {
         Provider(create: (_) => MovieService()),
         Provider(create: (context) => MovieRepositoryImpl(context.read<MovieService>())),
         Provider(create: (context) => GetPopularMovies(context.read<MovieRepositoryImpl>())),
+        Provider(create: (context) => GetGenre(context.read<MovieRepositoryImpl>())),
+        Provider(create: (context) => GetGenreMovies(context.read<MovieRepositoryImpl>())),
         Provider(create: (_) => SerieService()),
         Provider(create: (context) => SeriesRepositoryImpl(context.read<SerieService>())),
         Provider(create: (context) => GetSeries(context.read<SeriesRepositoryImpl>())),
@@ -42,7 +47,10 @@ class NeoWeekendApp extends StatelessWidget {
         Provider(create: (context) => Getgames(context.read<GameRepositoryImpl>())),
         Provider(create: (context) => GetGenres(context.read<GenreRepositoryImpl>())),
         ChangeNotifierProvider(
-          create: (context) => MovieProvider(getPopularMoviesUseCase: context.read<GetPopularMovies>()),
+          create: (context) => MoviesProvider(getPopularMoviesUseCase: context.read<GetPopularMovies>(), getGenreUseCase: context.read<GetGenre>()),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GenreMoviesProvider(getGenreMoviesUseCase: context.read<GetGenreMovies>()),
         ),
         ChangeNotifierProvider(
           create: (context) => GameController(getGamesUseCase: context.read<Getgames>()),

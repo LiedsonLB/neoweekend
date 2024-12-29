@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:neoweekend/features/data/models/movie/movie_model.dart';
+import 'package:neoweekend/features/domain/usecases/movie/get_genre.dart';
 import 'package:neoweekend/features/domain/usecases/movie/get_popular_movies.dart';
 
-class MovieProvider with ChangeNotifier {
+class MoviesProvider with ChangeNotifier {
   List<MovieModel> _movies = [];
   bool _isLoading = false;
 
@@ -10,8 +11,9 @@ class MovieProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
 
   final GetPopularMovies getPopularMoviesUseCase;
+  final GetGenre getGenreUseCase;
 
-  MovieProvider({required this.getPopularMoviesUseCase});
+  MoviesProvider({required this.getPopularMoviesUseCase, required this.getGenreUseCase});
 
   int _currentPage = 1;
 
@@ -42,6 +44,29 @@ class MovieProvider with ChangeNotifier {
       );
     } catch (e) {
       print('Error fetching movies: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> getGenre(String genre) async {
+    _isLoading = true;
+    notifyListeners();
+
+    try {
+      final result = await getGenreUseCase.call(genre);
+      result.fold(
+        (failure) {
+          print(failure.message);
+        },
+        (genreMovies) {
+          print('genreMovies: $genreMovies');
+          _movies = genreMovies;
+        },
+      );
+    } catch (e) {
+      print('Error fetching genre movies: $e');
     } finally {
       _isLoading = false;
       notifyListeners();

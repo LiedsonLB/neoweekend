@@ -1,32 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:neoweekend/core/services/movie/movie_service.dart';
+import 'package:neoweekend/features/data/repositories/movie/movie_repository_impl.dart';
 import 'package:neoweekend/features/domain/entities/dto/movie/movie_card_dto.dart';
-import 'package:neoweekend/features/presentation/pages/movie/movie_info_page.dart';
+import 'package:neoweekend/features/domain/usecases/movie/get_genre_movie.dart';
 
 class MovieCard extends StatefulWidget {
   final MovieCardDTO movieCardDTO;
 
-  const MovieCard({super.key, required this.movieCardDTO});
+  final GetGenreMovies get_genre_movie = GetGenreMovies( MovieRepositoryImpl(MovieService()));
+
+  MovieCard({super.key, required this.movieCardDTO});
 
   @override
   _MovieCardState createState() => _MovieCardState();
 }
 
 class _MovieCardState extends State<MovieCard> {
-  void _toGameInfoPage() async {
-    // final result = await widget.getgame.call(widget.gameCardDto.id.toString());
+  void _toMovieInfoPage() async {
+    //final result = await widget.get_genre_movie.call(widget.movieCardDTO.id.toString());
 
     // result.fold(
     //   (failure) {
     //     print('Falha ao carregar o jogo: ${failure.message}');
     //   },
-    //   (game) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const MovieInfoPage(),
-          ),
-        );
-      // },
+    //   (movie) {
+    //     Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) => MovieInfoPage(movie: widget.movieCardDTO),
+    //       ),
+    //     );
+    //   },
     // );
   }
 
@@ -34,8 +38,7 @@ class _MovieCardState extends State<MovieCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        print('ID: ${widget.movieCardDTO.id}');
-        print('Título: ${widget.movieCardDTO.name}');
+        _toMovieInfoPage();
       },
       child: Container(
         decoration: BoxDecoration(

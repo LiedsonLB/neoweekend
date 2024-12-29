@@ -19,11 +19,11 @@ class GameSession extends StatefulWidget {
 
 class _GameSessionState extends State<GameSession> {
   late ScrollController _scrollController;
+  String query = ''; // To track the search query
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
     _scrollController = ScrollController()..addListener(_onScroll);
     Future.microtask(() => context.read<GameController>().getGames());
     Future.microtask(() => context.read<GenreProvider>().getGenres());
@@ -58,6 +58,9 @@ class _GameSessionState extends State<GameSession> {
               Expanded(
                 child: Search(
                   onChanged: (query) {
+                    setState(() {
+                      this.query = query;
+                    });
                     if (query.isNotEmpty) {
                       gameController.getGames(query: query, reset: true);
                     }
@@ -82,19 +85,22 @@ class _GameSessionState extends State<GameSession> {
             ],
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
-          child: Text(
-            'Todos as categorias',
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              color: AppColors.pink,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+        
+        if (query.isEmpty)
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+            child: Text(
+              'Todas as categorias',
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                color: AppColors.pink,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-        if (genreProvider.genres.isNotEmpty)
+
+        if (genreProvider.genres.isNotEmpty && query.isEmpty)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10.0),
             child: SizedBox(

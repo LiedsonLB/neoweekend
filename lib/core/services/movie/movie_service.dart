@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:neoweekend/features/data/models/movie/genre_movie_model.dart';
 import 'package:neoweekend/features/data/models/movie/movie_model.dart';
-import 'package:neoweekend/features/data/models/movie/serie_model.dart';
 
 class MovieService {
   final String _baseUrl = 'api.themoviedb.org';
@@ -12,7 +12,9 @@ class MovieService {
     String category = '',
     int page = 1,
   }) async {
-    final String endpoint = query.isNotEmpty ? '/3/search/movie' : '/3/movie/popular';
+    // Alterar para 'discover/movie' ao invés de 'movie/popular'
+    final String endpoint =
+        query.isNotEmpty ? '/3/search/movie' : '/3/discover/movie';
 
     final Map<String, String> queryParameters = {
       'api_key': _apiKey,
@@ -23,8 +25,10 @@ class MovieService {
       queryParameters['query'] = query;
     }
 
+    // Se 'category' não estiver vazio, adicionar ao parâmetro 'with_genres'
     if (category.isNotEmpty) {
-      queryParameters['with_genres'] = category;
+      queryParameters['with_genres'] =
+          category; // 'category' deve ser o ID do gênero
     }
 
     final Uri url = Uri.https(_baseUrl, endpoint, queryParameters);
@@ -40,6 +44,26 @@ class MovieService {
     } else {
       print('Failed to fetch Movies: ${response.statusCode}');
       throw Exception('Failed to fetch Movies');
+    }
+  }
+
+  Future<List<GenreMoviesModel>> fetchGenreMovies() async {
+    final Uri url = Uri.https(_baseUrl, '/3/genre/movie/list', {
+      'api_key': _apiKey,
+      'language': 'pt-BR',
+    });
+
+    print('URL: $url');
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final List genres = data['genres'];
+      return genres.map((genre) => GenreMoviesModel.fromJson(genre)).toList();
+    } else {
+      print('Failed to fetch Genres: ${response.statusCode}');
+      throw Exception('Failed to fetch Genres');
     }
   }
 

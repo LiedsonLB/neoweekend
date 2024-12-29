@@ -12,9 +12,6 @@ class SerieService {
       'page': page.toString(),
     });
 
-    print('URL Series: $url');
-    // https://api.themoviedb.org/3/discover/tv?api_key=5bb001c5375dd81c5afce60feb020138&page=1
-
     final response = await http.get(url);
 
     if (response.statusCode == 200) {

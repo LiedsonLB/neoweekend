@@ -31,8 +31,8 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/icons/logo.png', width: 100),
-            const SizedBox(height: 10),
+            Image.asset('assets/icons/logo.png', width: 200),
+            const SizedBox(height: 30),
             Container(
               constraints: const BoxConstraints(maxWidth: 320),
               child: const Column(
@@ -43,12 +43,12 @@ class _SplashScreenState extends State<SplashScreen> {
                     'Bem-vindo ao Neoweekend',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 26,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: AppColors.white,
+                      color: AppColors.pink,
                     ),
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 10),
                   Text(
                     'Confira livros, jogos, séries, filmes e músicas. Para seu fim de semana',
                     textAlign: TextAlign.center,

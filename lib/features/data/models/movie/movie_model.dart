@@ -38,6 +38,20 @@ class MovieModel {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'release_date': releaseDate,
+      'backdrop_path': backdropPath,
+      'poster_path': posterPath,
+      'overview': overview,
+      'vote_average': voteAverage,
+      'year': year,
+      'genres': genres,
+    };
+  }
+
   @override
   String toString() {
     return 'Movie { id: $id, title: $title, realese: $releaseDate, backdropPath: $backdropPath, posterPath: $posterPath, overview: $overview, voteAverage;: $voteAverage, year: $year, genres: $genres }';

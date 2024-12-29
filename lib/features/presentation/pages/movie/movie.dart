@@ -4,7 +4,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neoweekend/core/constants/colors.dart';
 import 'package:neoweekend/core/constants/widgets/search.dart';
 import 'package:neoweekend/features/domain/entities/dto/movie/movie_card_dto.dart';
-import 'package:neoweekend/features/presentation/controllers/movie/movie_provider.dart';
+import 'package:neoweekend/features/presentation/controllers/movie/genres_movies_provider.dart';
+import 'package:neoweekend/features/presentation/controllers/movie/movies_provider.dart';
+import 'package:neoweekend/features/presentation/widgets/movie/genre_movie_card.dart';
 import 'package:neoweekend/features/presentation/widgets/movie/movie_card.dart';
 import 'package:provider/provider.dart';
 
@@ -17,13 +19,16 @@ class MovieSession extends StatefulWidget {
 
 class _MovieSessionState extends State<MovieSession> {
   late ScrollController _scrollController;
+  String query = '';
+  int? selectedGenreIndex;
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController();
     _scrollController = ScrollController()..addListener(_onScroll);
-    Future.microtask(() => context.read<MovieProvider>().getPopularMovies());
+    Future.microtask(() => context.read<MoviesProvider>().getPopularMovies());
+    Future.microtask(
+        () => context.read<GenreMoviesProvider>().getGenreMovies());
   }
 
   @override
@@ -36,23 +41,14 @@ class _MovieSessionState extends State<MovieSession> {
   void _onScroll() {
     if (_scrollController.position.pixels >=
         _scrollController.position.maxScrollExtent - 200) {
-      context.read<MovieProvider>().getPopularMovies();
-    }
-  }
-
-  void _scrollToTop() {
-    if (_scrollController.hasClients) {
-      _scrollController.animateTo(
-        0.0,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
+      context.read<MoviesProvider>().getPopularMovies();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final movieProvider = context.watch<MovieProvider>();
+    final movieProvider = context.watch<MoviesProvider>();
+    final genreMoviesProvider = context.watch<GenreMoviesProvider>();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,9 +60,11 @@ class _MovieSessionState extends State<MovieSession> {
               Expanded(
                 child: Search(
                   onChanged: (query) {
+                    setState(() {
+                      this.query = query;
+                    });
                     if (query.isNotEmpty) {
                       movieProvider.getPopularMovies(query: query, reset: true);
-                      _scrollToTop();
                     }
                   },
                 ),
@@ -89,33 +87,53 @@ class _MovieSessionState extends State<MovieSession> {
             ],
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
-          child: Text(
-            'Todos as categorias',
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              color: AppColors.pink,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+        if (query.isEmpty)
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
+            child: Text(
+              'Todos as categorias',
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                color: AppColors.pink,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-        // if (genreProvider.genres.isNotEmpty)
-        //   Padding(
-        //     padding: const EdgeInsets.symmetric(vertical: 10.0),
-        //     child: SizedBox(
-        //       height: 100,
-        //       child: ListView.builder(
-        //         scrollDirection: Axis.horizontal,
-        //         itemCount: genreProvider.genres.length,
-        //         itemBuilder: (context, index) {
-        //           final genre = genreProvider.genres[index];
-        //           return CategoryCard(genre: genre);
-        //         },
-        //       ),
-        //     ),
-        //   ),
+        if (genreMoviesProvider.genreMovies.isNotEmpty && query.isEmpty)
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Container(
+              height: 80,
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: genreMoviesProvider.genreMovies.length,
+                  itemBuilder: (context, index) {
+                    final genre = genreMoviesProvider.genreMovies[index];
+                    return Row(
+                      children: [
+                        GenreMoviesCard(
+                          genre: genre,
+                          isSelected: selectedGenreIndex == index,
+                          onTap: () {
+                            print(genre.id.toString());
+                            setState(() {
+                              selectedGenreIndex = index;
+                            });
+                            movieProvider.getGenre(genre.id.toString());
+                          },
+                        ),
+                        const SizedBox(width: 10),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
           child: Text(
@@ -136,7 +154,7 @@ class _MovieSessionState extends State<MovieSession> {
           const Expanded(
             child: Center(
               child: Text(
-                'Nenhum jogo encontrado.',
+                'Nenhum filme encontrado.',
                 selectionColor: AppColors.white,
               ),
             ),
