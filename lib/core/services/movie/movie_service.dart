@@ -81,7 +81,26 @@ class MovieService {
       return MovieModel.fromJson(data);
     } else {
       print('Failed to load Movie: ${response.statusCode}');
-      throw Exception('Failed to load Movie');
+      throw Exception('Failed to load Movie Exception');
+    }
+  }
+
+  Future<List<MovieModel>> fetchMovieVideos(int id) async {
+    final Uri url = Uri.https(_baseUrl, '/3/movie/$id/videos', {
+      'api_key': _apiKey,
+    });
+
+    print('URL: $url');
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final List videos = data['results'];
+      return videos.map((video) => MovieModel.fromJson(video)).toList();
+    } else {
+      print('Failed to load Movie Videos: ${response.statusCode}');
+      throw Exception('Failed to load Movie Videos Exception');
     }
   }
 }
