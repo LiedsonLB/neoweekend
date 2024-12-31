@@ -12,7 +12,6 @@ class MovieService {
     String category = '',
     int page = 1,
   }) async {
-    // Alterar para 'discover/movie' ao invés de 'movie/popular'
     final String endpoint =
         query.isNotEmpty ? '/3/search/movie' : '/3/discover/movie';
 
@@ -25,15 +24,12 @@ class MovieService {
       queryParameters['query'] = query;
     }
 
-    // Se 'category' não estiver vazio, adicionar ao parâmetro 'with_genres'
     if (category.isNotEmpty) {
       queryParameters['with_genres'] =
-          category; // 'category' deve ser o ID do gênero
+          category;
     }
 
     final Uri url = Uri.https(_baseUrl, endpoint, queryParameters);
-
-    print('URL: $url');
 
     final response = await http.get(url);
 
@@ -53,8 +49,6 @@ class MovieService {
       'language': 'pt-BR',
     });
 
-    print('URL: $url');
-
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -72,8 +66,6 @@ class MovieService {
       'api_key': _apiKey,
     });
 
-    print('URL: $url');
-
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -89,8 +81,6 @@ class MovieService {
     final Uri url = Uri.https(_baseUrl, '/3/movie/$id/videos', {
       'api_key': _apiKey,
     });
-
-    print('URL: $url');
 
     final response = await http.get(url);
 

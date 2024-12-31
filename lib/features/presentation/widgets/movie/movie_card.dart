@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:neoweekend/core/services/movie/movie_service.dart';
 import 'package:neoweekend/features/data/repositories/movie/movie_repository_impl.dart';
 import 'package:neoweekend/features/domain/entities/dto/movie/movie_card_dto.dart';
-import 'package:neoweekend/features/domain/usecases/movie/get_genre_movie.dart';
+import 'package:neoweekend/features/domain/usecases/movie/get_movie.dart';
+import 'package:neoweekend/features/presentation/pages/movie/movie_info_page.dart';
 
 class MovieCard extends StatefulWidget {
   final MovieCardDTO movieCardDTO;
 
-  final GetGenreMovies get_genre_movie = GetGenreMovies( MovieRepositoryImpl(MovieService()));
+  final GetMovie getMovie = GetMovie( MovieRepositoryImpl(MovieService()));
 
   MovieCard({super.key, required this.movieCardDTO});
 
@@ -17,21 +18,21 @@ class MovieCard extends StatefulWidget {
 
 class _MovieCardState extends State<MovieCard> {
   void _toMovieInfoPage() async {
-    //final result = await widget.get_genre_movie.call(widget.movieCardDTO.id.toString());
+    final result = await widget.getMovie.call(widget.movieCardDTO.id);
 
-    // result.fold(
-    //   (failure) {
-    //     print('Falha ao carregar o jogo: ${failure.message}');
-    //   },
-    //   (movie) {
-    //     Navigator.push(
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => MovieInfoPage(movie: widget.movieCardDTO),
-    //       ),
-    //     );
-    //   },
-    // );
+    result.fold(
+      (failure) {
+        print('Falha ao carregar o jogo: ${failure.message}');
+      },
+      (movie) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MovieInfoPage(movie: widget.movieCardDTO),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -43,7 +44,7 @@ class _MovieCardState extends State<MovieCard> {
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: NetworkImage(widget.movieCardDTO.backgroundImage ?? ''),
+            image: NetworkImage(widget.movieCardDTO.posterImageUrl ?? ''),
             fit: BoxFit.cover,
             onError: (_, __) => const Icon(
               Icons.error,

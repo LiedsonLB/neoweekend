@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:neoweekend/core/constants/colors.dart';
-import 'package:neoweekend/features/data/models/movie/movie_model.dart';
+import 'package:neoweekend/features/domain/entities/dto/movie/movie_card_dto.dart';
 
 class MovieInfoPage extends StatefulWidget {
-  final MovieModel movie;
+  final MovieCardDTO movie;
 
   const MovieInfoPage({super.key, required this.movie});
 
@@ -13,16 +12,16 @@ class MovieInfoPage extends StatefulWidget {
 }
 
 class _MovieInfoPageState extends State<MovieInfoPage> {
-  
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: AppColors.black,
       appBar: AppBar(
         title: Text(
           widget.movie.title,
         ),
-        backgroundColor: Colors.pink,
+        backgroundColor: AppColors.pink,
         foregroundColor: AppColors.white,
         centerTitle: true,
       ),
@@ -33,7 +32,7 @@ class _MovieInfoPageState extends State<MovieInfoPage> {
             Stack(
               children: [
                 Image.network(
-                  widget.movie.backdropPath ?? '',
+                  widget.movie.backdropImageUrl ?? '',
                   width: double.infinity,
                   height: 250,
                   fit: BoxFit.cover,
@@ -41,45 +40,77 @@ class _MovieInfoPageState extends State<MovieInfoPage> {
                       Container(height: 250, color: Colors.grey),
                 ),
                 Positioned(
-                  bottom: 16,
-                  left: 16,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
+                        horizontal: 16, vertical: 12),
                     decoration: BoxDecoration(
-                      color: AppColors.black.withOpacity(0.7),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Text(
-                      widget.movie.year,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.black.withOpacity(0.7),
+                          Colors.transparent
+                        ],
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
                       ),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 90,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                  widget.movie.posterImageUrl ?? ''),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Text(
+                            widget.movie.title,
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.white,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ],
             ),
             const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 6,
+              ),
+              decoration: BoxDecoration(
+                color: AppColors.black.withOpacity(0.7),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Text(
+                widget.movie.releaseDate.toString(),
+                style: const TextStyle(
+                  color: AppColors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    widget.movie.title,
-                    style: const TextStyle(
-                      color: AppColors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-
-                  // Ratings
                   Row(
                     children: [
                       Icon(
@@ -96,29 +127,9 @@ class _MovieInfoPageState extends State<MovieInfoPage> {
                           color: AppColors.white,
                         ),
                       ),
-                      const SizedBox(width: 16),
-                        Row(
-                          children: [
-                            Icon(
-                              const FaIcon(FontAwesomeIcons.solidStar).icon,
-                              color: AppColors.pink,
-                              size: 20,
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              'Metascore: ${widget.movie.voteAverage}',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: AppColors.white,
-                              ),
-                            ),
-                          ],
-                        ),
                     ],
                   ),
                   const SizedBox(height: 16),
-
-                  // Description
                   const Text(
                     'Descrição:',
                     style: TextStyle(
@@ -137,12 +148,10 @@ class _MovieInfoPageState extends State<MovieInfoPage> {
                     ),
                   ),
                   const SizedBox(height: 16),
-
-                  // Platforms
                   const Text(
-                    'Plataformas:',
+                    'Gêneros:',
                     style: TextStyle(
-                      color: AppColors.white,
+                      color: Colors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -153,7 +162,8 @@ class _MovieInfoPageState extends State<MovieInfoPage> {
                     runSpacing: 4,
                     children: widget.movie.genres
                         .map(
-                          (platform) => Chip(
+                          (genre) => Chip(
+                            backgroundColor: AppColors.pink,
                             color: MaterialStateProperty.all(AppColors.pink),
                             shape: const RoundedRectangleBorder(
                               side: BorderSide(color: Colors.transparent),
@@ -161,8 +171,8 @@ class _MovieInfoPageState extends State<MovieInfoPage> {
                                   BorderRadius.all(Radius.elliptical(5, 5)),
                             ),
                             label: Text(
-                              platform.toString(),
-                              style: const TextStyle(color: AppColors.white),
+                              genre.name,
+                              style: const TextStyle(color: AppColors.white, fontSize: 20),
                             ),
                           ),
                         )

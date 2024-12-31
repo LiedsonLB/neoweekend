@@ -19,7 +19,7 @@ class GameSession extends StatefulWidget {
 
 class _GameSessionState extends State<GameSession> {
   late ScrollController _scrollController;
-  String query = ''; // To track the search query
+  String query = '';
 
   @override
   void initState() {

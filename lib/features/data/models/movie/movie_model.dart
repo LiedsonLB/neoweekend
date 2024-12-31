@@ -1,3 +1,5 @@
+import 'package:neoweekend/features/data/models/movie/genre_movie_model.dart';
+
 class MovieModel {
   final int id;
   final String title;
@@ -7,7 +9,7 @@ class MovieModel {
   final String? overview;
   final String voteAverage;
   final String year;
-  final List<int> genres;
+  final List<GenreMoviesModel> genres;
 
   MovieModel({
     required this.id,
@@ -32,28 +34,9 @@ class MovieModel {
       voteAverage: json['vote_average'].toString(),
       year: json['year'].toString(),
       genres: (json['genres'] as List<dynamic>?)
-              ?.map((genre) => genre['id'] as int)
+              ?.map((genreJson) => GenreMoviesModel.fromJson(genreJson))
               .toList() ??
           [],
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'release_date': releaseDate,
-      'backdrop_path': backdropPath,
-      'poster_path': posterPath,
-      'overview': overview,
-      'vote_average': voteAverage,
-      'year': year,
-      'genres': genres,
-    };
-  }
-
-  @override
-  String toString() {
-    return 'Movie { id: $id, title: $title, realese: $releaseDate, backdropPath: $backdropPath, posterPath: $posterPath, overview: $overview, voteAverage;: $voteAverage, year: $year, genres: $genres }';
   }
 }

@@ -49,5 +49,13 @@ void main() {
       expect(movies, isNotNull);
       expect(movies.isNotEmpty, true);
     });
+
+    //teste de movieCardDTO
+    test('deve retornar uma lista de gêneros', () async {
+      final genres = await movieService.fetchGenreMovies();
+
+      expect(genres, isNotNull);
+      expect(genres.isNotEmpty, true);
+    });
   });
 }
